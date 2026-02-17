@@ -1,6 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
@@ -19,6 +19,22 @@ db = client[os.environ['DB_NAME']]
 
 app = FastAPI(title="TaskFlow API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
+
+# ============================================================
+# ⚠️ CORS MIDDLEWARE - TREBUIE SĂ FIE AICI (ÎNAINTE DE ROUTERS)
+# ============================================================
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://task-manager-gamma-taupe-32.vercel.app",  # FĂRĂ SPAȚII LA FINAL!
+        "http://localhost:3000",
+        "https://task-manager-api.onrender.com",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ============================================================
 # Models
@@ -191,11 +207,9 @@ async def get_dashboard_stats():
         "status": {"$ne": "done"}
     })
 
-    # Priority breakdown
     low = await db.tasks.count_documents({"priority": "low"})
     medium = await db.tasks.count_documents({"priority": "medium"})
 
-    # Category breakdown
     pipeline = [
         {"$match": {"category": {"$ne": ""}}},
         {"$group": {"_id": "$category", "count": {"$sum": 1}}},
@@ -203,7 +217,6 @@ async def get_dashboard_stats():
     ]
     cat_stats = await db.tasks.aggregate(pipeline).to_list(20)
 
-    # Recent tasks
     recent = await db.tasks.find({}, {"_id": 0}).sort("createdAt", -1).to_list(5)
 
     return {
@@ -235,19 +248,16 @@ async def get_dashboard_stats():
 
 @api_router.post("/seed")
 async def seed_data():
-    # Check if already seeded
     existing = await db.users.count_documents({})
     if existing > 0:
         return {"message": "Date deja existente"}
 
-    # Seed users
     users = [
         {"id": "u1", "name": "Alexandru Popescu", "email": "alex@taskflow.io", "password": "demo123", "role": "admin", "avatar": "AP", "createdAt": "2025-01-15T10:00:00Z"},
         {"id": "u2", "name": "Maria Ionescu", "email": "maria@taskflow.io", "password": "demo123", "role": "member", "avatar": "MI", "createdAt": "2025-02-01T10:00:00Z"},
     ]
     await db.users.insert_many(users)
 
-    # Seed categories
     categories = [
         {"id": "c1", "name": "Dezvoltare", "color": "#818CF8", "createdAt": "2025-01-15T10:00:00Z"},
         {"id": "c2", "name": "Design", "color": "#F472B6", "createdAt": "2025-01-15T10:00:00Z"},
@@ -257,7 +267,6 @@ async def seed_data():
     ]
     await db.categories.insert_many(categories)
 
-    # Seed tasks
     tasks = [
         {"id": "t1", "title": "Redesign pagina de login", "description": "Actualizare UI pentru pagina de autentificare cu noul design system", "status": "done", "priority": "high", "category": "Design", "dueDate": "2025-12-20T23:59:00Z", "createdAt": "2025-12-01T10:00:00Z", "updatedAt": "2025-12-18T15:30:00Z"},
         {"id": "t2", "title": "Implementare API task-uri", "description": "CRUD complet pentru gestionarea task-urilor cu FastAPI si MongoDB", "status": "done", "priority": "urgent", "category": "Dezvoltare", "dueDate": "2025-12-25T23:59:00Z", "createdAt": "2025-12-05T09:00:00Z", "updatedAt": "2025-12-22T14:00:00Z"},
@@ -274,16 +283,15 @@ async def seed_data():
 
     return {"message": "Date seed create cu succes", "tasks": len(tasks), "categories": len(categories), "users": len(users)}
 
-# Include router
+# ============================================================
+# ⚠️ INCLUDE ROUTER - DUPĂ CORS MIDDLEWARE
+# ============================================================
+
 app.include_router(api_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# ============================================================
+# Logging & Shutdown
+# ============================================================
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
