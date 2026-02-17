@@ -29,8 +29,8 @@ app.add_middleware(
     allow_origins=[
         "https://task-manager-gamma-taupe-32.vercel.app",
         "http://localhost:3000",
-        "https://task-manager-api.onrender.com",
-        "*",  # Permite orice origin pentru development
+        "https://task-manager-api-thps.onrender.com",  # ✅ URL-ul CORECT din logs
+        "*",  # Permite orice pentru development
     ],
     allow_credentials=True,
     allow_methods=["*"],
