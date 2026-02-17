@@ -21,15 +21,16 @@ app = FastAPI(title="TaskFlow API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
 # ============================================================
-# ⚠️ CORS MIDDLEWARE - TREBUIE SĂ FIE AICI (ÎNAINTE DE ROUTERS)
+# ✅ CORS MIDDLEWARE - ÎNAINTE DE ROUTERS (FĂRĂ SPAȚII!)
 # ============================================================
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://task-manager-gamma-taupe-32.vercel.app",  # FĂRĂ SPAȚII LA FINAL!
+        "https://task-manager-gamma-taupe-32.vercel.app",
         "http://localhost:3000",
         "https://task-manager-api.onrender.com",
+        "*",  # Permite orice origin pentru development
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -284,7 +285,7 @@ async def seed_data():
     return {"message": "Date seed create cu succes", "tasks": len(tasks), "categories": len(categories), "users": len(users)}
 
 # ============================================================
-# ⚠️ INCLUDE ROUTER - DUPĂ CORS MIDDLEWARE
+# Include Router
 # ============================================================
 
 app.include_router(api_router)
