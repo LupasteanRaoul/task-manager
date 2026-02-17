@@ -5,10 +5,11 @@
 
 Production-grade task management application built with modern technologies and deployed to the cloud.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-000?style=for-the-badge)](https://task-manager-gamma-taupe-32.vercel.app)
-[![API Status](https://img.shields.io/badge/API-Online-009688?style=for-the-badge)](https://task-manager-api-thps.onrender.com/api/health)
-[![Tech Stack](https://img.shields.io/badge/React-FastAPI-MongoDB-61DAFB?style=for-the-badge)]
-[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)]
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?logo=fastapi)
+![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?logo=mongodb)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?logo=tailwindcss)
 
 </div>
 
