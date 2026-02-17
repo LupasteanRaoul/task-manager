@@ -1,6 +1,3 @@
-Iată un fișier `README.md` complet și bine structurat, pe baza informațiilor tale. Este gata de copiat și folosit în repository-ul GitHub.
-
-```markdown
 # 🚀 TaskFlow - Manager de Sarcini Modern
 
 **TaskFlow** este o aplicație web modernă pentru gestionarea eficientă a task-urilor, construită cu tehnologii de ultimă generație. Oferă o experiență fluidă atât pentru utilizatori individuali, cât și pentru echipe mici.
@@ -54,7 +51,6 @@ Iată un fișier `README.md` complet și bine structurat, pe baza informațiilor
 ## 🛠️ Tech Stack
 
 ### Frontend
-```
 ├── React 19
 ├── TypeScript
 ├── Tailwind CSS
@@ -64,23 +60,20 @@ Iată un fișier `README.md` complet și bine structurat, pe baza informațiilor
 ├── React Hook Form
 ├── Zod (Validation)
 ├── Recharts (Grafice)
-└── Vercel (Deploy)
-```
+└── Vercel (Deplo)
 
-### Backend
-```
+### Backendy
 ├── FastAPI (Python)
 ├── Uvicorn (ASGI Server)
 ├── Motor (Async MongoDB)
 ├── Pydantic (Validation)
 ├── Python-dotenv
 └── Render (Deploy)
-```
+
 
 ### Database
-```
 └── MongoDB Atlas (M0 Free Tier)
-```
+
 
 ---
 
@@ -95,101 +88,88 @@ Iată un fișier `README.md` complet și bine structurat, pe baza informațiilor
 ```bash
 git clone https://github.com/LupasteanRaoul/task-manager.git
 cd task-manager
-```
 
-### 2. Setup Frontend
-```bash
+2. Setup Frontend
 cd frontend
 yarn install   # sau npm install
 yarn start     # sau npm start
-```
-Frontend-ul va rula pe `http://localhost:3000`
+Frontend-ul va rula pe http://localhost:3000
 
-### 3. Setup Backend
-```bash
+
+3. Setup Backend
 cd backend
 python -m venv venv
 source venv/bin/activate   # Linux/Mac
 # venv\Scripts\activate    # Windows
 pip install -r requirements.txt
 uvicorn server:app --reload --port 8000
-```
-Backend-ul va rula pe `http://localhost:8000`
+Backend-ul va rula pe http://localhost:8000
 
-### 4. Variabile de Mediu
-
-**Frontend (`.env` în folderul `frontend`)**
-```
+4. Variabile de Mediu
+Frontend (.env în folderul frontend)
 REACT_APP_BACKEND_URL=http://localhost:8000
-```
 
-**Backend (`.env` în folderul `backend`)**
-```
+Backend (.env în folderul backend)
 MONGO_URL=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/
 DB_NAME=taskflow
 SECRET_KEY=un_string_random_foarte_lung
 CORS_ORIGINS=http://localhost:3000
-```
 
----
+📡 API Endpoints
+Metodă	Endpoint	Descriere
+GET	/api/health	Health check
+POST	/api/auth/register	Înregistrare utilizator
+POST	/api/auth/login	Login utilizator
+GET	/api/tasks	Listă task-uri
+POST	/api/tasks	Creare task nou
+PUT	/api/tasks/{id}	Update task
+DELETE	/api/tasks/{id}	Ștergere task
+GET	/api/categories	Listă categorii
+POST	/api/categories	Creare categorie
+DELETE	/api/categories/{id}	Ștergere categorie
+GET	/api/dashboard/stats	Statistici dashboard
+POST	/api/seed	Seed date demo
+Documentație interactivă disponibilă la /docs (Swagger UI) după pornirea backend-ului.
 
-## 📡 API Endpoints
+📸 Screenshots
+Pagina de Login	Dashboard
+https://./screenshots/login.png	https://./screenshots/dashboard.png
 
-| Metodă | Endpoint                 | Descriere                     |
-|--------|--------------------------|-------------------------------|
-| GET    | `/api/health`            | Health check                  |
-| POST   | `/api/auth/register`     | Înregistrare utilizator       |
-| POST   | `/api/auth/login`        | Login utilizator              |
-| GET    | `/api/tasks`             | Listă task-uri                |
-| POST   | `/api/tasks`             | Creare task nou               |
-| PUT    | `/api/tasks/{id}`        | Update task                   |
-| DELETE | `/api/tasks/{id}`        | Ștergere task                 |
-| GET    | `/api/categories`        | Listă categorii               |
-| POST   | `/api/categories`        | Creare categorie              |
-| DELETE | `/api/categories/{id}`   | Ștergere categorie            |
-| GET    | `/api/dashboard/stats`   | Statistici dashboard          |
-| POST   | `/api/seed`              | Seed date demo                |
+🚀 Deploy
+Frontend (Vercel)
+Conectează repository-ul la Vercel.
 
-Documentație interactivă disponibilă la `/docs` (Swagger UI) după pornirea backend-ului.
+Setează Root Directory = frontend.
 
----
+Adaugă variabila de mediu REACT_APP_BACKEND_URL cu URL-ul backend-ului.
 
-## 📸 Screenshots
+Activează auto-deploy pentru fiecare push pe branch-ul principal.
 
-| Pagina de Login | Dashboard |
-|-----------------|-----------|
-| ![Login](./screenshots/login.png) | ![Dashboard](./screenshots/dashboard.png) |
+Backend (Render)
+Conectează repository-ul la Render.
 
----
+Creează un Web Service cu:
 
-## 🚀 Deploy
+Root Directory = backend
 
-### Frontend (Vercel)
-1. Conectează repository-ul la Vercel.
-2. Setează **Root Directory** = `frontend`.
-3. Adaugă variabila de mediu `REACT_APP_BACKEND_URL` cu URL-ul backend-ului.
-4. Activează auto-deploy pentru fiecare push pe branch-ul principal.
+Build Command = pip install -r requirements.txt
 
-### Backend (Render)
-1. Conectează repository-ul la Render.
-2. Creează un **Web Service** cu:
-   - **Root Directory** = `backend`
-   - **Build Command** = `pip install -r requirements.txt`
-   - **Start Command** = `uvicorn server:app --host 0.0.0.0 --port $PORT`
-3. Adaugă variabilele de mediu: `MONGO_URL`, `DB_NAME`, `SECRET_KEY`, `CORS_ORIGINS`.
-4. Activează auto-deploy.
+Start Command = uvicorn server:app --host 0.0.0.0 --port $PORT
 
-### Database (MongoDB Atlas)
-- Creează un cluster gratuit (M0).
-- Configurează **Network Access** = `0.0.0.0/0` (allow from anywhere).
-- Creează un user de bază de date.
-- Copiază connection string-ul și folosește-l în `MONGO_URL`.
+Adaugă variabilele de mediu: MONGO_URL, DB_NAME, SECRET_KEY, CORS_ORIGINS.
 
----
+Activează auto-deploy.
 
-## 📁 Structura Proiectului
+Database (MongoDB Atlas)
+Creează un cluster gratuit (M0).
 
-```
+Configurează Network Access = 0.0.0.0/0 (allow from anywhere).
+
+Creează un user de bază de date.
+
+Copiază connection string-ul și folosește-l în MONGO_URL.
+
+📁 Structura Proiectului
 task-manager/
 ├── frontend/
 │   ├── public/
@@ -216,54 +196,54 @@ task-manager/
 │   └── runtime.txt                # specifică Python 3.11
 ├── README.md
 └── DEPLOY.md
-```
 
----
+🔒 Securitate
+✅ CORS configurat corect (doar domeniile permise).
 
-## 🔒 Securitate
-- ✅ CORS configurat corect (doar domeniile permise).
-- ✅ Environment variables pentru date sensibile.
-- ✅ Autentificare MongoDB cu user și parolă.
-- ✅ Input validation cu Pydantic (backend) și Zod (frontend).
-- ✅ Parole criptate cu bcrypt.
-- ⚠️ **Notă:** În producție, este implementată autentificare JWT pentru securitate maximă.
+✅ Environment variables pentru date sensibile.
 
----
+✅ Autentificare MongoDB cu user și parolă.
 
-## 🤝 Contribuție
+✅ Input validation cu Pydantic (backend) și Zod (frontend).
+
+✅ Parole criptate cu bcrypt.
+
+⚠️ Notă: În producție, este implementată autentificare JWT pentru securitate maximă.
+
+🤝 Contribuție
 Contribuțiile sunt binevenite! Urmează pașii:
-1. Fork proiectul.
-2. Creează un branch nou (`git checkout -b feature/nume-feature`).
-3. Commite modificările (`git commit -m 'Adaugă o nouă funcționalitate'`).
-4. Fă push pe branch (`git push origin feature/nume-feature`).
-5. Deschide un Pull Request.
 
----
+Fork proiectul.
 
-## 📄 Licență
-Acest proiect este open-source și disponibil sub licența **MIT**.
+Creează un branch nou (git checkout -b feature/nume-feature).
 
----
+Commite modificările (git commit -m 'Adaugă o nouă funcționalitate').
 
-## 👨‍💻 Autor
-**Raoul Lupastean**  
-- GitHub: [@LupasteanRaoul](https://github.com/LupasteanRaoul)
-- Proiect: [TaskFlow](https://github.com/LupasteanRaoul/task-manager)
+Fă push pe branch (git push origin feature/nume-feature).
 
----
+Deschide un Pull Request.
 
-## 🙏 Mulțumiri
-- [Vercel](https://vercel.com) pentru hosting frontend
-- [Render](https://render.com) pentru hosting backend
-- [MongoDB Atlas](https://www.mongodb.com/atlas) pentru baza de date gratuită
-- [Radix UI](https://www.radix-ui.com/) pentru componentele accesibile
-- [Tailwind CSS](https://tailwindcss.com/) pentru sistemul de styling
-- [shadcn/ui](https://ui.shadcn.com/) pentru componentele frumoase
+📄 Licență
+Acest proiect este open-source și disponibil sub licența MIT.
 
----
+👨‍💻 Autor
+Raoul Lupastean
 
-<div align="center">
-  Construit cu ❤️ folosind React + FastAPI + MongoDB
-  <br />
-  <a href="#">⬆ Back to Top</a>
-</div>
+GitHub: @LupasteanRaoul
+
+Proiect: TaskFlow
+
+🙏 Mulțumiri
+Vercel pentru hosting frontend
+
+Render pentru hosting backend
+
+MongoDB Atlas pentru baza de date gratuită
+
+Radix UI pentru componentele accesibile
+
+Tailwind CSS pentru sistemul de styling
+
+shadcn/ui pentru componentele frumoase
+
+<div align="center"> Construit cu ❤️ folosind React + FastAPI + MongoDB <br /> <a href="#">⬆ Back to Top</a> </div>
